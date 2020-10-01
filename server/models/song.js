@@ -15,10 +15,38 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Song.init({
-    title: DataTypes.STRING,
-    genre: DataTypes.STRING,
-    artist: DataTypes.STRING,
-    picture:DataTypes.STRING,
+    title: {
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg: `title is required`
+        }
+      }
+    },
+    genre: {
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg: `genre is required`
+        }
+      }
+    },
+    artist: {
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg: `artist is required`
+        }
+      }
+    },
+    picture:{
+      type:DataTypes.STRING,
+      // validate:{
+      //   notEmpty:{
+      //     msg: `picture is required`
+      //   }
+      // }
+    },
     user_id:DataTypes.INTEGER
   }, {
     sequelize,
