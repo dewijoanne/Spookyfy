@@ -34,7 +34,7 @@ class SongController {
         .then(song => {
             if(!song) throw ({msg:'song not found',code:404})
             song.destroy()
-            res.status(200).json({msg:'successfully deleted the task'})
+            res.status(200).json({msg:'successfully deleted the song'})
         })
         .catch(err => {
             next(err);

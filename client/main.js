@@ -206,8 +206,6 @@ function updateStatus(id, status) {
   })
 }
 
-
-
 function deleteMusic(id) {
   Swal.fire({
     title: 'Are you sure?',
@@ -306,3 +304,31 @@ function logout() {
     })
 }
 
+function getWeather() {
+  $.ajax({
+    url: `${baseUrl}/weathers/`,
+    method: 'GET',
+
+  })
+  .done(data => {
+    const condition = data.weather[0].main;
+    const temperature = Math.floor((Number(data.main.temp) - 270 )).toString() + 'degree celcius';
+    const wind = (data.wind.speed).toString() + 'm/s';
+    const location = data.name;
+
+    $("#condition").val(condition)
+    $("#temperature").val(temperature)
+    $("#wind").val(wind)
+    $("#location").val(location)
+  })
+  .fail(err => {
+    showErrorToastMessage(err.responseJSON.errors.join('\n'))
+  })
+}
+
+
+
+// getLocation() => result.name
+// getWeather() => cuaca sekarang, Clouds , result.weather[0].main
+// getTemperature() => suhu feels like - 270 
+// getWindSpeed() => wind.speed , => angka , nah tambahin m/s
