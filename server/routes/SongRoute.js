@@ -1,10 +1,10 @@
 const route = require('express').Router();
-const { Router } = require('express');
+
 const SongController = require('../controllers/SongController');
 const authentication = require('../middlewares/authentication');
 const axios = require('axios')
 
-// route.use(authentication);
+route.use(authentication);
 route.get('/',SongController.findAll);
 route.post('/',SongController.create);
 route.delete('/:id',SongController.delete);
@@ -25,5 +25,7 @@ route.get('/:artist/:songname', (req, res, next) => {
      })
      .catch(err => next(err))
 })
+
+
 
 module.exports = route;
