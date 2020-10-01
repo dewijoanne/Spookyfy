@@ -23,14 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    genre: {
-      type:DataTypes.STRING,
-      validate:{
-        notEmpty:{
-          msg: `genre is required`
-        }
-      }
-    },
     artist: {
       type:DataTypes.STRING,
       validate:{
