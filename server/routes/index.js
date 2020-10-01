@@ -1,8 +1,9 @@
 const route = require('express').Router();
 const UserController = require('../controllers/UserController');
-const SongController = require('../controllers/SongController');
+const SongRoute = require('./SongRoute');
 
 route.post('/users/register',UserController.create);
 route.post('/users/login',UserController.login);
+route.use('/songs',SongRoute);
 
 module.exports = route;

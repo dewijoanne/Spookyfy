@@ -1,0 +1,20 @@
+[
+    {
+        "title" : "bad guy",
+        "genre" : "indie",
+        "artist" : "billie eilish",
+        "picture" : "https://en.wikipedia.org/wiki/Billie_Eilish#/media/File:Billie_Eilish_2019_by_Glenn_Francis_(cropped)_2.jpg"
+    },
+    {
+        "title" : "everything i wanted",
+        "genre" : "indie",
+        "artist" : "billie eilish",
+        "picture" : "https://en.wikipedia.org/wiki/Billie_Eilish#/media/File:Billie_Eilish_2019_by_Glenn_Francis_(cropped)_2.jpg"
+    },
+    {
+        "title" : "hot hands",
+        "genre" : "electronic",
+        "artist" : "darius",
+        "picture" : "https://baliclubbing.net/files/2019/08/DARIUS1.jpg"
+    }
+]

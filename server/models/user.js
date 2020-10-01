@@ -1,4 +1,6 @@
 'use strict';
+const hashPass = require('../helpers/bcrypt');
+
 const {
   Model
 } = require('sequelize');
@@ -44,5 +46,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+  User.beforeCreate((instance,opt) => {
+    instance.password = hashPass(instance.password);
+  });
+
   return User;
 };
