@@ -1,5 +1,5 @@
 'use strict';
-const hashPass = require('../helpers/bcrypt');
+const {hashPass} = require('../helpers/bcrypt');
 
 const {
   Model
@@ -26,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:{
           msg : `email is required`
+        },
+        isEmail:{
+          msg:`email should use an '@'`
         }
       }
     },
@@ -35,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty:{
           msg : `email is required`
         },
-        min:{
+        len:{
           args: [6],
           msg: `password should be minimum 6 characters`
         }
