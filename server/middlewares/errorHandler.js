@@ -1,16 +1,24 @@
-function errorHandler(err,req,res,next) {
-    let errors = [];
-    let code = 500;
-
+const errorHandler = (err, req, res, next) => {
+    console.log(err.stack)
+  
+    let errors = []
+    let statusCode = 500
+  
     switch(err.name) {
-        case 'SequelizeValidationError':
-        
-
-        default:
-            errors.push(err.msg);
-            code = err.code || 500;
+              case 'SequelizeValidationError':
+                err.errors.forEach(error => errors.push(error.message))
+                statusCode = 400
+                break
+                default:
+                  errors.push('Internal server error')
+                  statusCode = err.code || 500
     }
-    res.status(code).json({errors})
-}
+  
+    res.status(statusCode).json({
+      errors:errors
+    })
+  }
+  
+  module.exports = errorHandler
 
-module.exports = errorHandler;
+
