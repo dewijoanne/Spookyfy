@@ -21,20 +21,21 @@
     }
   </style>
 
+<!-- login page -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
 </head>
-<body style="background-color: black;">
+<body style="background-color:black;">
   <section id="login-page" class="container-fluid" style="height: 100vh">
    
     <div class="d-flex align-items-center justify-content-center" style="height: 100vh">
         <div class="shadow-lg bg-white rounded p-4" style="width: 20rem;">
-          <div class="d-flex align-items-center justify-content-center" >
-            <img src="assets/GrouchyElegantAlbacoretuna-small.gif" style="max-width: 30%" alt="todo" class="img-fluid">
+          <div class="d-flex align-items-center justify-content-center" style="background-color:black;" >
+            <img src="assets/UnequaledBruisedAffenpinscher-small.gif" style="max-width: 30%" alt="todo" class="img-fluid">
         </div>
 
         <h1 class="text-center mb-3">Spookyfy</h1>
-        <h2 class="text-center mb-3">Log In</h2>
+        
         <form id="login-form" onsubmit="login(event)">
         <div class="form-group">
           <label for="login-email">Email Address</label>
@@ -62,6 +63,152 @@
       </div>
     </div>
   </section>
+
+  <!-- register page -->
+
+  <section id="register-page" class="container-fluid" style="height: 100vh">
+   
+    <div class="d-flex align-items-center justify-content-center" style="height: 100vh">
+        <div class="shadow-lg bg-white rounded p-4" style="width: 20rem;">
+          <div class="d-flex align-items-center justify-content-center" style="background-color:black;" >
+            <img src="assets/UnequaledBruisedAffenpinscher-small.gif" style="max-width: 30%" alt="todo" class="img-fluid">
+        </div>
+
+        <h1 class="text-center mb-3">Spookyfy</h1>
+        
+        <form onsubmit="signUp(event)">
+          <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" class="form-control" id="login-email" placeholder="Your email">
+        </div>
+        <div class="form-group">
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" class="form-control" id="login-password" placeholder="Your password">
+          </div>
+          <div class="text-center"></div>
+          <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </div>
+        </form>
+        <p class="mt-3 ">Already have an account?<br> <span onclick="goToLogin()" role="button" class="text-primary">Login</span></p>
+        <hr>
+        <p class="mt-3">Or, use another account:</p>
+        <div class="g-signin2 text-center" data-onsuccess="onSignIn"></div>
+        <div class="row d-flex justify-content-center bg-light mt-3 shadow">
+            <div class="col-md-12 text-center text-muted mt-2">
+                <p>Copyright &copy; 2020 by <a href="https://github.com/dewijoanne">Joanne</a> , <a
+                        href="https://github.com/hansenshlim">Hutama</a> and <a
+                        href="https://github.com/aldino9112">Aldino</a></p>
+            </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="home-page" class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-4">
+    <button class="btn btn-danger" onclick="signOut()">Sign out</button>
+    <img src="assets/597b4ed0683df1d67c8182776d15a016.gif" style="max-width: 30%" alt="todo" class="img-fluid">
+  </div>
+<div class="col-6">
+  <h1>
+    <b>Your Music</b>
+    <button type="submit" class="btn btn-primary float-right btn-sm"onclick"toAddMusicPage()">Add Music</button>
+  </h1>
+<ul class="list-unstyled" id="container-music">
+</ul>
+      </div>
+  </div>
+</section>
+
+<!-- add music form-->
+<section class="container" id="addmusic-page">
+  <div class="row justify-content-center mt-5">
+    <div class="col-4">
+      <div class="mb-5 mt-5">
+        <img src="assets/597b4ed0683df1d67c8182776d15a016.gif" alt="music" class="img-fluid mt-5">
+
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="shadow-lg p-5 mb-5 bg-white rounded">
+        <h5 class="mb-4">
+          <b>Add Music</b>
+          <button class="btn btn-sm btn-primary float-right" onclick="toSearchMusicPage()">Search</button>
+        </h5>
+        <form onsubmit="addMusic"(event)">
+        <div class="form-group">
+          <label for="add-title">Title</label>
+          <input type="text" class="form-control" id="add-title">
+
+        </div>
+      <div class="form-group">
+        <label for="add-artist">Artist</label>
+        <input type="text" class="form-control" id="add-artist">
+      </div>
+      <div class="form-group">
+        <label for="add-genre">Genre</label>
+        <select class="form-control" id="add-genre">
+          <option selected disabled>Select Genre</option>
+          <option>Pop</option>
+          <option>Rock</option>
+          <option>Jazz</option>
+          <option>Dubstep</option>
+          <option>Blues</option>
+          <option>Techno</option>
+          <option>Country</option>
+          <option>Indie</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="add-preview">Preview Url</label>
+        <input type="text" class="form-control" id="add-preview">
+      </div>
+      <div class="form-group">
+        <label for="add-link">Link API</label>
+        <input type="text" class="form-control" id="add-link">
+      </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      </div></form>"
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- search music-->
+<section class="container" id="searchmusic-page">
+  <div class="row justify-content-center mt-5">
+    <div class ="col-5">
+      <h5>
+        <b>Search Song</b>
+      </h5>
+      <form class="form-row" onsubmit="toSearchMusic(event)">
+      <div class="form-group col-md-9">
+        <input type="text" class="form-control"id="search-keyword" placeholder="keyword">
+      </div>
+    </form>
+    <ul class="list-unstyled" id="search-container">
+      <li class="media text-center mt-3">
+        <p>Search your song!</p>
+      </li>
+    </ul>
+    </div>
+  </div>
+</section>
+
+
+    </form>
+  </div>
+</div>
+
+</div>
+
+</section>
+
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
