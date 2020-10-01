@@ -15,6 +15,31 @@ class SongController {
             next(err);
         })
     }
+
+    static create(req,res,next) {
+        const {title,genre,artist,picture} = req.body;
+        const newObj = {title,genre,artist,picture,user_id:req.userData.id};
+
+        Song.create(newObj)
+        .then( (song) => {
+            res.status(201).json({song})
+        })
+        .catch (err => {
+            next(err)
+        })
+    }
+
+    static delete(req,res,next) {
+        Song.findByPk(req.params.id)
+        .then(song => {
+            if(!song) throw ({msg:'song not found',code:404})
+            song.destroy()
+            res.status(200).json({msg:'successfully deleted the task'})
+        })
+        .catch(err => {
+            next(err);
+        })
+    }
 }
 
 module.exports = SongController;

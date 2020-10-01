@@ -6,6 +6,8 @@ const axios = require('axios')
 
 // route.use(authentication);
 route.get('/',SongController.findAll);
+route.post('/',SongController.create);
+route.delete('/:id',SongController.delete);
 
 
 
