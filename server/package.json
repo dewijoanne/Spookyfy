@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Spookyfy is an app for first group portofolio in phase 2 hacktiv8. This app has:\r *RESTFUL endpoint for asset's CRUD operation\r *JSON formatted response\r *Show Favourite user songs\r *Register to this app and login",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -31,13 +31,14 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    picture:{
+    album: {
       type:DataTypes.STRING,
-      // validate:{
-      //   notEmpty:{
-      //     msg: `picture is required`
-      //   }
-      // }
+    },
+    preview: {
+      type:DataTypes.STRING,
+    },
+    lyrics: {
+      type:DataTypes.STRING,
     },
     user_id:DataTypes.INTEGER
   }, {

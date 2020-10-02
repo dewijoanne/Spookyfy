@@ -19,7 +19,6 @@ route.get('/',(req,res,next) => {
     })
     .then(response => {
         weatherData = response.data
-        console.log(weatherData);
         res.status(200).json({weatherData});
     })
     .catch(err => next(err));

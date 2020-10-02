@@ -11,13 +11,16 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      genre: {
-        type: Sequelize.STRING
-      },
       artist: {
         type: Sequelize.STRING
       },
-      picture: {
+      album: {
+        type: Sequelize.STRING
+      },
+      preview: {
+        type: Sequelize.STRING
+      },
+      lyrics: {
         type: Sequelize.STRING
       },
       createdAt: {

@@ -6,9 +6,8 @@ const {OAuth2Client} = require('google-auth-library');
 class UserController {
     
     static create(req,res,next) {
-        const {name,email,password} = req.body;
-        const newObj = {name,email,password};
-
+        const {email,password} = req.body;
+        const newObj = {email,password};
         User.create(newObj)
         .then(user => {
             res.status(201).json({msg:'successfully create new user'});
@@ -48,7 +47,7 @@ class UserController {
         let email = null;
         const client = new OAuth2Client("417449977313-9n8mdnk5h6ht4q0uvvhvlc5nskketgg8.apps.googleusercontent.com");
         client.verifyIdToken({
-            idToken: req.body.googleToken,
+            idToken: req.body.tokenGoogle,
             audience: "417449977313-9n8mdnk5h6ht4q0uvvhvlc5nskketgg8.apps.googleusercontent.com",  
         })
         .then(ticket => {

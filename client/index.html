@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id" content="417449977313-9n8mdnk5h6ht4q0uvvhvlc5nskketgg8.apps.googleusercontent.com">
   <title>Spookyfy</title>
   <link href="https://fonts.googleapis.com/css?family=Alata" rel='stylesheet'>
   <embed src="assets/UK female welcome__preview.mp3" autostart="true" loop="true" width="2" height="0"> </embed>
@@ -23,7 +24,7 @@
 
 <!-- login page -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<link rel="stylesheet" href="style.css">
+<!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body style="background-color:black;">
   <section id="login-page" class="container-fluid" style="height: 100vh">
@@ -31,7 +32,7 @@
     <div class="d-flex align-items-center justify-content-center" style="height: 100vh">
         <div class="shadow-lg bg-white rounded p-4" style="width: 20rem;">
           <div class="d-flex align-items-center justify-content-center" style="background-color:black;" >
-            <img src="assets/UnequaledBruisedAffenpinscher-small.gif" style="max-width: 30%" alt="todo" class="img-fluid">
+            <img src="assets/UnequaledBruisedAffenpinscher-small.gif" style="max-width: 30%" alt="todo" class="img-fluid">              
         </div>
 
         <h1 class="text-center mb-3">Spookyfy</h1>
@@ -78,13 +79,13 @@
         
         <form onsubmit="signUp(event)">
           <div class="form-group">
-          <label for="login-email">Email Address</label>
-          <input type="email" class="form-control" id="login-email" placeholder="Your email">
+          <label for="register-email">Email Address</label>
+          <input type="email" class="form-control" id="register-email" placeholder="Your email">
         </div>
         <div class="form-group">
           <div class="form-group">
-            <label for="login-password">Password</label>
-            <input type="password" class="form-control" id="login-password" placeholder="Your password">
+            <label for="register-password">Password</label>
+            <input type="password" class="form-control" id="register-password" placeholder="Your password">
           </div>
           <div class="text-center"></div>
           <button type="submit" class="btn btn-primary btn-block">Register</button>
@@ -97,7 +98,7 @@
         <div class="row d-flex justify-content-center bg-light mt-3 shadow">
             <div class="col-md-12 text-center text-muted mt-2">
                 <p>Copyright &copy; 2020 by <a href="https://github.com/dewijoanne">Joanne</a> , <a
-                        href="https://github.com/hansenshlim">Hutama</a> and <a
+                        href="https://github.com/hutamafs">Hutama</a> and <a
                         href="https://github.com/aldino9112">Aldino</a></p>
             </div>
         </div>
@@ -111,20 +112,30 @@
     <button onclick="logout()" class="btn btn-danger"style="position:absolute; right: 10px; top:10px;">Logout</button>
     <div class="row justify-content-center mt-5">
       <div class="col-4">
+        <div class="align-items-center d-flex flex-column text-align-center">
+          <h4 id="location" class="text-light"></h4>
+        <div id="icon" class="d-flex align-items-center">
+          <h4 id="condition" class="text-light"></h4>          
+        </div>
+        <h4 id="temperature" class="text-light"></h4>
+        <h4 id="wind" class="text-light"></h4>
+        
         <img src="assets/597b4ed0683df1d67c8182776d15a016.gif" alt="music" class="img-fluid mt-5">
+        </div>
+        
       </div>
       <div class="col-6">
-        <h4>
+        <h4 class="text-light"> 
           <b>Your Music</b>
           <button onclick="toAddPage()" type="button" class="btn btn-primary float-right btn-sm">Add Music</button>
         </h4>
         <ul id="container-music" class="list-unstyled">
           
-        </ul>
-      </div>
+        </div>
+      </ul>
     </div>
   </section>
-
+  
 <!-- add music form-->
 <section class="container" id="add-page">
   <div class="row justify-content-center mt-5">
@@ -136,6 +147,31 @@
     </div>
 
     <div class="col-4">
+      <!-- search music-->
+<section class="container d-flex justify-content-center"  id="search-page">
+  <div>
+    <h5 class="text-light">
+      <b>Search Song</b>
+    </h5>
+    <div class="d-flex mt-5 align-items-center">
+      <div class ="">
+        <form class="form-row">
+        <div class="form-group ">
+          <input type="text" class="form-control"id="search-keyword" placeholder="keyword">
+        </div>
+      </form>
+      </div>
+      <div class="text-align-left ml-3">
+        <ul class="list-unstyled" id="search-container">
+          <li class="media text-center">
+            <button class="btn btn-light" id = "search-song" onclick="spotify()">Search</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
       <div class="shadow-lg p-5 mb-5 bg-white rounded">
         <h5 class="mb-4">
           <b>Add Music</b>
@@ -155,12 +191,12 @@
         <input type="text" class="form-control" id="add-album">
       </div>
       <div class="form-group">
-        <label for="add-preview">Preview song sounds url</label>
-        <input type="text" class="form-control" id="add-preview">
+        <label for="add-sound">Preview song sounds url</label>
+        <input type="text" class="form-control" id="add-sound">
       </div>
       <div class="form-group">
         <label for="add-lyrics">Add Lyrics</label>
-        <input type="text" class="form-control" id="add-lyrics">
+        <textarea class="form-control" id="add-lyrics" cols="10" rows="3"></textarea>
       </div>
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
     </form>
@@ -169,29 +205,8 @@
   </div>
 </section>
 
-<!-- search music-->
-<section class="container" id="search-page">
-  <div class="row justify-content-center mt-5">
-    <div class ="col-5">
-      <h5>
-        <b>Search Song</b>
-      </h5>
-      <form class="form-row" onsubmit="toSearchMusic(event)">
-      <div class="form-group col-md-9">
-        <input type="text" class="form-control"id="search-keyword" placeholder="keyword">
-      </div>
-    </form>
-    <ul class="list-unstyled" id="search-container">
-      <li class="media text-center mt-3">
-        <button id = "search-song" onclick="spotify()">Search</button>
-      </li>
-    </ul>
-    </div>
-  </div>
-</section>
 
 
-    </form>
   </div>
 </div>
 
