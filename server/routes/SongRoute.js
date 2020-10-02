@@ -15,7 +15,7 @@ route.get('/search/:track', (req, res, next) => {
     const { track } = req.params
     axios({
         method: 'GET',
-        headers: {Authorization : 'Bearer BQDngdPoMWO1XeJ6YUlfdH95qG7DMoW3w1cU86VQYws_ihjRRb9kcL0Kd8N8jOMIXH5QI8Q0fCvKPDaPwLVDdImI4_i1571gTqInHYYlDfxO73gaLJi0Ikrv9kXfDa37kqJaBPORAhC7X1HK6pkuIQnkO50XfGFIT3GpZ5cd94Z-VItKesib8t9T_j79tpug45B4uEO2sTrfZLgWPdsH3QMWPZ9MlM8_gPT9GseXHBGhpoelYdUgwgFbeXV5hx4AwjcZduoC0sbdXCJjWRR-uKD6Rwq6L1xS4cA"'} ,
+        headers: {Authorization : 'Bearer BQC3I_mp7MrMX175A5zbhUeix2lh6AgKwvrdcQWxEePJS3WZ0tuN6NUYwzOTR-gSCOfTr9miIwz_lvdjaKwDmo1fr9X-t_iQ7YtTLq7c2PLT7pN13CXghVZ0d9me8otiXLyzDaYq9v3S4Kuy_5x_ufBCEHqzm8PN4DzdxqSfIsqqI_y7WmEJICMaTWK_ubzgusYj7bfJnovtKkrAc-wWxOJoBamnS4IX9zGl3bcnXiTLW2Mhe3WIBqbc9qR_JH3jm-RqzSDZqLUPbC6QHA92DvEioh2et4pIVEk"'} ,
         url: `https://api.spotify.com/v1/search?q=${track}&type=track&market=ID`
     })
      .then(response => {

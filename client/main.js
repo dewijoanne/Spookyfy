@@ -78,7 +78,6 @@ function checkLogin() {
 
 function onSignIn(googleUser) {
   var tokenGoogle = googleUser.getAuthResponse().id_token;
-  console.log(tokenGoogle)
 
   $.ajax({
     url: baseUrl + '/users/googleSign',

@@ -29,9 +29,12 @@ _Response(200 - OK)_
     "songs": [
         {
             "id": 1,
-            "title": "bad guy",
+            "title": "everything that i wanted",
             "artist": "billie eilish",
+            "album": "parachutes",
+            "preview": "https://p.scdn.co/mp3-preview/c119ca773ef844108da21c4679dc54c007cf0926?cid=774b29d4f13844c495f206cafdad9c86",
             "picture": "https://en.wikipedia.org/wiki/Billie_Eilish#/media/File:Billie_Eilish_2019_by_Glenn_Francis_(cropped)_2.jpg",
+            "lyrics":"everything that i wanted",
             "user_id": 7,
             "createdAt": "2020-10-01T09:42:51.492Z",
             "updatedAt": "2020-10-01T09:42:51.492Z"
@@ -61,21 +64,28 @@ _REQUEST HEADER_
 
 _REQUEST BODY_
 ```
-    "title":"<string>"
-    "artist":"<string>"
+            "title": <string>,
+            "artist": <string>,
+            "album": <string>,
+            "preview": <string>,
+            "picture": <string>,
+            "lyrics":<string>
 ```
 
 _Response(201 - CREATED)_
 ```
 {
     "song": {
-        "id": 5,
-        "title": "titanic",
-        "artist": "celine dion",
-        "picture": null,
-        "user_id": 7,
-        "updatedAt": "2020-10-01T16:49:22.666Z",
-        "createdAt": "2020-10-01T16:49:22.666Z"
+            "id": 1,
+            "title": "everything that i wanted",
+            "artist": "billie eilish",
+            "album": "parachutes",
+            "preview": "https://p.scdn.co/mp3-preview/c119ca773ef844108da21c4679dc54c007cf0926?cid=774b29d4f13844c495f206cafdad9c86",
+            "picture": "https://en.wikipedia.org/wiki/Billie_Eilish#/media/File:Billie_Eilish_2019_by_Glenn_Francis_(cropped)_2.jpg",
+            "lyrics":"everything that i wanted",
+            "user_id": 7,
+            "createdAt": "2020-10-01T09:42:51.492Z",
+            "updatedAt": "2020-10-01T09:42:51.492Z"
     }
 }
 ```
@@ -113,7 +123,7 @@ _REQUEST PARAMS_
 _Response(200 - OK)_
 ```
 {
-    "msg": "successfully deleted the task"
+    "msg": "successfully deleted the song"
 }
 ```
 _Response (401 - Unauthorized)_
@@ -135,7 +145,7 @@ _Response (404 - Not Found)_
 ```
 
 ### POST /users/register
-> CREATE NEW TODO
+> CREATE NEW USER
 
 _REQUEST HEADER_
 ```
@@ -144,7 +154,6 @@ _REQUEST HEADER_
 
 _REQUEST BODY_
 ```
-    "name":"<string>"
     "email":"<string>"
     "password":"<string>"
 ```
@@ -159,7 +168,6 @@ _Response (400 - Bad Request)_
 ```
 {
     "errors": [
-        "fill in your name",
         "fill in your email",
         "fill in the valid email",
         "fill in the password"
