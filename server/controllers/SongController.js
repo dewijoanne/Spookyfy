@@ -17,8 +17,8 @@ class SongController {
     }
 
     static create(req,res,next) {
-        const {title,artist,album,preview,lyrics} = req.body;
-        const newObj = {title,artist,album,preview,lyrics,user_id:req.userData.id};
+        const {title,artist,album,preview,lyrics,picture} = req.body;
+        const newObj = {title,artist,album,preview,lyrics,picture,user_id:req.userData.id};
 
         Song.create(newObj)
         .then( (song) => {

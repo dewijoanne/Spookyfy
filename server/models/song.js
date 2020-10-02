@@ -37,8 +37,11 @@ module.exports = (sequelize, DataTypes) => {
     preview: {
       type:DataTypes.STRING,
     },
+    picture: {
+      type:DataTypes.TEXT,
+    },
     lyrics: {
-      type:DataTypes.STRING,
+      type:DataTypes.TEXT,
     },
     user_id:DataTypes.INTEGER
   }, {

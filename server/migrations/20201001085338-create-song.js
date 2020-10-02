@@ -20,8 +20,11 @@ module.exports = {
       preview: {
         type: Sequelize.STRING
       },
+      picture: {
+        type: Sequelize.TEXT
+      },
       lyrics: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
