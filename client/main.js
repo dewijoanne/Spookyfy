@@ -197,6 +197,13 @@ function fetchMusic(){
                 <h5 class="mt-0 mb-0">${music.title}</h5>
                 <span class="text-muted">${music.artist}</span> 
                 <span class="text-muted">${music.album}</span>
+                 <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lyrics" aria-expanded="false" aria-controls="collapse">Lyrics</button>
+                </p>
+                <div class="collapse" id="collapse">
+                <div class="card card-body">
+                ${music.lyrics}</div>
+                </div>
               <br>
               <audio controls>
               <source src="${music.preview}" type="audio/ogg">
