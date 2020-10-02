@@ -1,7 +1,7 @@
-
 const baseUrl = 'http://localhost:3050'
 
-let globalMusicId;
+let globalMusicId
+
 
 $(document).ready(function() {
   checkLogin()
@@ -65,185 +65,50 @@ function checkLogin() {
     $('#home-page').show()
     $('#login-page').hide()
     $('#register-page').hide()
-    $('#edit-todo-form-container').hide()
+    $("#add-page").hide()
+    $("#search-page").hide()
+    fetchMusic()
   } else {
     $('#login-page').show()
     $('#home-page').hide()
     $('#register-page').hide()
+    $("#add-page").hide()
+    $("#search-page").hide()
   }
 }
 
 function onSignIn(googleUser) {
-    const googleToken = googleUser.getAuthResponse().id_token;
+  var tokenGoogle = googleUser.getAuthResponse().id_token;
 
-    $.ajax({
-        url:`${baseUrl}/users/googleSign`,
-        method:'POST',
-        data:{googleToken}
-    })
-    .done(res => {
-        localStorage.setItem('token',res.token)
-        checkLogin();
-    })
-    .fail(err => {
-        console.log(err.responseJSON.errors)
-    })
+  $.ajax({
+    url: baseUrl + '/googleSign',
+    method: 'POST',
+    data: {
+      tokenGoogle
+    }
+  })
+  .done(data => {
+    localStorage.setItem("token", data.token)
+    checkLogin()
+  })
+  .fail(err => {
+    console.log(err)
+  })
 }
 
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
+
+function logout() {
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut()
+  .then( () => {
     console.log('User signed out.');
-  });
-  localStorage.clear()
-  checkLogin()
-}
-
-// Todo
-
-function fetchMusic() {
-  const unfinishedContainer = $('#unfinished-container')
-  const finishedContainer = $('#finished-container')
-
-  $.ajax({
-    url: `${baseUrl}/musics`,
-    method: "get",
-    headers: {
-      token: localStorage.token 
-    }
   })
-  .done(data => {
-    unfinishedContainer.empty()
-    finishedContainer.empty()
-    data.musics.forEach(music => {
-      if(music.status === 'not finished'){
-        unfinishedContainer.append(`
-          <div class="shadow p-4 mt-3 bg-warning">
-            <p><b>${music.song}</b></p>
-            <p>${music.artist}</p>
-            <p>${music.genre}</p>
-            <div class="d-flex justify-content-around mt-3">
-              <button onclick="deleteTodo(${music.id})" class="btn btn-danger mr-2">Delete</button>
-              <button onclick="showEditForm(${music.id}, '${music.song}', '${music.artist}', '${music.genre}')" class="btn btn-primary mr-2">Edit</button>
-              <button onclick="updateStatus(${music.id}, 'finished')" class="btn btn-success">Done</button>
-            </div>
-          </div>
-        `)
-      } else if (music.status === 'finished') {
-        finishedContainer.append(`
-          <div class="shadow p-4 mt-3 bg-warning">
-            <p><b>${music.title}</b></p>
-            <p>${music.description}</p>
-            
-            <div class="d-flex justify-content-around mt-3">
-              <button onclick="deleteTodo(${music.id})" class="btn btn-danger mr-2">Delete</button>
-              <button onclick="showEditForm(${music.id}, '${music.song}', '${music.artist}', '${music.genre}')" class="btn btn-primary mr-2">Edit</button>
-              <button onclick="updateStatus(${music.id}, 'not finished')" class="btn btn-secondary">Undone</button>
-            </div>
-          </div>
-        `)
-      }
-    });
-  })
-  .fail(err => {
-    console.log(err.responseJSON.errors)
-    showErrorToastMessage(err.responseJSON.errors.join(', '))
-  })
-  .always(() => {
-    $("#login-email").val('');
-    $("#login-password").val('');
+  .catch(err =>{
+      console.log(err.responseJSON.errors)
   })
 }
 
-function postMusic(event) {
-  event.preventDefault()
-  const song = $('#add-song').val()
-  const artist = $('#add-artist').val()
-  const genre = $('#add-genre').val()
-  console.log(title)
-  $.ajax({
-    url: `${baseUrl}/musics`,
-    method: "post",
-    headers: {
-      token: localStorage.token 
-    },
-    data: {
-      title,
-      description,
-      due_date,
-      status
-    }
-  })
-  .done(data => {
-    $('#music-title').val('')
-    $('#music-description').val('')
-    $('#music-due').val('')
-    showSuccessMessage('Music has been created')
-    fetchMusic()
-  })
-  .fail(err => {
-    showErrorToastMessage(err.responseJSON.errors.join('\n'))
-  })
-}
-
-function updateStatus(id, status) {
-  $.ajax({
-    url: `${baseUrl}/musics/${id}`,
-    method: "patch",
-    headers: {
-      token: localStorage.token 
-    },
-    data: {
-      status
-    }
-  })
-  .done(data => {
-    showSuccessMessage('Music status has been updated')
-    fetchMusic()
-  })
-  .fail(err => {
-    showErrorToastMessage(err.responseJSON.errors.join('\n'))
-  })
-}
-
-function deleteMusic(id) {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
-  })
-  .then((result) => {
-    if (result.isConfirmed) {
-      $.ajax({
-        url: `${baseUrl}/musics/${id}`,
-        method: "delete",
-        headers: {
-          token: localStorage.token 
-        },
-        data: {
-          status
-        }
-      })
-      .done(data => {
-        Swal.fire(
-          'Deleted!',
-          'Your task has been deleted.',
-          'success'
-        )
-        fetchMusic()
-      })
-      .fail(err => {
-        showErrorToastMessage(err.responseJSON.errors.join('\n'))
-      })
-    }
-  })  
-}
-
-// ALERT
+//ALERT
 
 function showSuccessMessage(message) {
   Swal.fire({
@@ -284,6 +149,8 @@ function goToLogin() {
   $("#login-password").val('');
   $("#login-page").show()
   $("#register-page").hide()
+  $("#add-page").hide()
+  $("#search-page").hide()
 }
 
 function goToRegister() {
@@ -291,18 +158,138 @@ function goToRegister() {
   $("#register-password").val('');
   $("#register-page").show()
   $("#login-page").hide()
+  $("#login-page").hide()
+  $("#add-page").hide()
+  $("#search-page").hide()
 }
 
+/*
 function logout() {
-    const auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut()
-    .then( () => {
-      console.log('User signed out.');
-    })
-    .catch(err =>{
-        console.log(err.responseJSON.errors)
-    })
+  localStorage.clear()
+  checkAuth()
 }
+*/
+
+//FETCH MUSIC
+
+function fetchMusic(){
+  $.ajax({
+    url: `${baseUrl}/musics`,
+    method: 'get',
+    header:{
+      token: localStorage.token
+    }
+  })
+
+  .done(data => {
+    console.log(data, "<<< Data Music")
+    $('#container-music').empty()
+    data.musics.forEach(music => {
+      $('#container-music').append(`
+      <li class="media bg-white rounded p-2 shadow mt-3">
+            <div class="media-body p-1">
+              <button onclick="deleteMusic(${music.id})" type="button" class="close float-right" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <a href="${music.link}" class="text-decoration-none" target="_blank">
+                <h5 class="mt-0 mb-0">${music.title}</h5>
+              </a>
+              <audio controls>
+              <source src="${music.preview}" type="audio/ogg">
+              </audio>
+              <span class="text-muted">${music.artist}</span>
+            </div>
+          </li>`)
+    })
+  })
+  .fail(err => {
+    console.log(err.responseJSON.errors, '<<< error login')
+  })
+}
+
+//ADD PAGE MUSIC
+
+function toAddPage() {
+  $('#add-page').show()
+  $('#search-page').show()
+  $('#home-page').hide()
+}
+
+//ADD MUSIC
+
+function addMusic(event){
+  event.preventDefault()
+  let title = $('#add-title').val()
+  let artist = $('#add-artist').val()
+  let album = $('#add-album').val()
+  let preview = $('#add-preview').val()
+  let lyrics = $('#add-lyrics').val()
+
+  $.ajax({
+    url: `${baseUrl}/musics`,
+    method:'post',
+    headers: {
+      token:localStorage.token
+    },
+    data: {
+      title,
+      artist,
+      album,
+      preview,
+      lyrics
+
+    }
+  })
+  .done(() => {
+    fetchMusic()
+    $('#home-page').show()
+    $('#add-page').hide()
+  })
+  .fail(err => {
+    console.log(err.responseJSON.errors, "<<< error login")
+  })
+}
+
+//DELETE MUSIC
+
+function deleteMusic(id) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: `${baseUrl}/musics/${id}`,
+        method: "delete",
+        headers: {
+          token: localStorage.token 
+        },
+        data: {
+          status
+        }
+      })
+      .done(data => {
+        Swal.fire(
+          'Deleted!',
+          'Your music has been deleted.',
+          'success'
+        )
+        fetchMusic()
+      })
+      .fail(err => {
+        showErrorToastMessage(err.responseJSON.errors.join('\n'))
+      })
+    }
+  })  
+}
+
+
 
 function getWeather() {
   $.ajax({
@@ -325,6 +312,8 @@ function getWeather() {
     showErrorToastMessage(err.responseJSON.errors.join('\n'))
   })
 }
+
+
 
 
 
