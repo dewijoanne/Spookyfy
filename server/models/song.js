@@ -34,6 +34,12 @@ module.exports = (sequelize, DataTypes) => {
     album: {
       type:DataTypes.STRING,
     },
+    preview: {
+      type:DataTypes.STRING,
+    },
+    lyrics: {
+      type:DataTypes.STRING,
+    },
     user_id:DataTypes.INTEGER
   }, {
     sequelize,

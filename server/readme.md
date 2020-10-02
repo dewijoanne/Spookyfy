@@ -259,7 +259,7 @@ _Response (404 - NOT FOUND)_
 }
 ```
 
-### GET /songs/search/
+### GET /songs/search/:track
 
 USER CAN
 -SEARCH SONG AND ADD TO FAVOURITES
@@ -314,7 +314,7 @@ _Response (401 - NOT FOUND)_
 }
 ```
 
-### GET /artist/songname
+### GET /:artist/:songname
 
 USER CAN
 -SEARCH SONG AND GET ITS LYRIC

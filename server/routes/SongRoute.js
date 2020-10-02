@@ -14,7 +14,7 @@ route.delete('/:id',SongController.delete);
 route.get('/search/:track', (req, res, next) => {
     axios.interceptors.request.use(
         config => {
-            config.headers.Authorization = 'Bearer BQCmZK_3fBGUdps74XUSmhAa3bmv1OKB1KLtIq6_1wFPIj8VQdSEyJMvnsSXIusgX86GAH4E0C5m38ofNi0Pug-B6ITSjZTObDf0XMwcZfy8TV-786DY6hMbjB-pt_8DpJvEFrIN-sndx5SBO02Cioy6BaVO9o2uoGGGZIdLgU9zM07VYHlyUkLK5-WAgufCK_d9_1ANLKlru6ZAPnrneOGiT17nLBvBjbWb2qnBYaBbLvU0-Eae0EJVEiXkX5jNPIS3G_h5bb9yViry4Ve_j5_hMx-1KDZVyR8"';
+            config.headers.Authorization = 'Bearer BQA1X7Ay7CwNYGOn6ZpJlZxQp3FmlB4UXEV2tAvp0FD8N_4tty2BBskGS4I9OCz68edZY4dRPP-zsROwvm2ytdjOKJA22RR9oblnyHikbQvQAq8LxsAk3_vIMeDcOQIRdNCJsLBPTMD1F4XRU91V2OwUcEmYkyxNvbL7ERGnUtcVnMsoXL5t0rZpbkNaxFB9UQVY_E61pfXFTkgdridr2ZF9IzKyFaH1os68BfgltZGmaQ1aybH8URf3x8II9SC2UEdDA0P72vnxE6P1YBx9jvDgI6-yUSCIrrQ"';
             return config
         },
         error => {
@@ -27,7 +27,7 @@ route.get('/search/:track', (req, res, next) => {
         url: `https://api.spotify.com/v1/search?q=${track}&type=track&market=ID`
     })
      .then(response => {
-         const musicData = response.data.tracks.items
+         const musicData = response.data.tracks.items[0];
          res.status(200).json({
              musicData
          })

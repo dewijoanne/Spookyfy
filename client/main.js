@@ -10,13 +10,12 @@ $(document).ready(function() {
 // AUTHENTICATION
 
 function signUp(event) {
-  console.log("abcd event")
   event.preventDefault()
   let email = $("#register-email").val();
   let password = $("#register-password").val();
 
   $.ajax({
-    url: `${baseUrl}/register`,
+    url: `${baseUrl}/users/register`,
     method: "post",
     data: {
       email,
@@ -32,13 +31,13 @@ function signUp(event) {
   })
 }
 
-function signIn(event) {
+function login(event) {
   event.preventDefault()
   let email = $("#login-email").val();
   let password = $("#login-password").val();
 
   $.ajax({
-    url: `${baseUrl}/login`,
+    url: `${baseUrl}/users/login`,
     method: "post",
     data: {
       email,
@@ -79,9 +78,10 @@ function checkLogin() {
 
 function onSignIn(googleUser) {
   var tokenGoogle = googleUser.getAuthResponse().id_token;
+  console.log(tokenGoogle)
 
   $.ajax({
-    url: baseUrl + '/googleSign',
+    url: baseUrl + '/users/googleSign',
     method: 'POST',
     data: {
       tokenGoogle
@@ -89,6 +89,7 @@ function onSignIn(googleUser) {
   })
   .done(data => {
     localStorage.setItem("token", data.token)
+    console.log(data.token,'ini token')
     checkLogin()
   })
   .fail(err => {
@@ -98,6 +99,8 @@ function onSignIn(googleUser) {
 
 
 function logout() {
+  localStorage.clear()
+  checkLogin()
   const auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut()
   .then( () => {
@@ -174,36 +177,39 @@ function logout() {
 
 function fetchMusic(){
   $.ajax({
-    url: `${baseUrl}/musics`,
+    url: `${baseUrl}/songs`,
     method: 'get',
-    header:{
+    headers:{
       token: localStorage.token
     }
   })
 
   .done(data => {
-    console.log(data, "<<< Data Music")
+    getWeather()
     $('#container-music').empty()
-    data.musics.forEach(music => {
+    data.songs.forEach(music => {
       $('#container-music').append(`
       <li class="media bg-white rounded p-2 shadow mt-3">
             <div class="media-body p-1">
               <button onclick="deleteMusic(${music.id})" type="button" class="close float-right" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-              <a href="${music.link}" class="text-decoration-none" target="_blank">
                 <h5 class="mt-0 mb-0">${music.title}</h5>
-              </a>
+                <span class="text-muted">${music.artist}</span> 
+                <span class="text-muted">${music.album}</span>
+              <br>
               <audio controls>
               <source src="${music.preview}" type="audio/ogg">
               </audio>
-              <span class="text-muted">${music.artist}</span>
             </div>
           </li>`)
     })
   })
   .fail(err => {
     console.log(err.responseJSON.errors, '<<< error login')
+  })
+  .always(_=>{
+    $('#search-page').hide()
   })
 }
 
@@ -222,23 +228,16 @@ function addMusic(event){
   let title = $('#add-title').val()
   let artist = $('#add-artist').val()
   let album = $('#add-album').val()
-  let preview = $('#add-preview').val()
+  let preview = $('#add-sound').val()
   let lyrics = $('#add-lyrics').val()
 
   $.ajax({
-    url: `${baseUrl}/musics`,
+    url: `${baseUrl}/songs/`,
     method:'post',
     headers: {
       token:localStorage.token
     },
-    data: {
-      title,
-      artist,
-      album,
-      preview,
-      lyrics
-
-    }
+    data:{title,artist,album,preview,lyrics}
   })
   .done(() => {
     fetchMusic()
@@ -247,6 +246,13 @@ function addMusic(event){
   })
   .fail(err => {
     console.log(err.responseJSON.errors, "<<< error login")
+  })
+  .always (() => {
+     $('#add-title').val('')
+    $('#add-artist').val('')
+    $('#add-album').val('')
+     $('#add-sound').val('')
+    $('#add-lyrics').val('')
   })
 }
 
@@ -265,7 +271,7 @@ function deleteMusic(id) {
   .then((result) => {
     if (result.isConfirmed) {
       $.ajax({
-        url: `${baseUrl}/musics/${id}`,
+        url: `${baseUrl}/songs/${id}`,
         method: "delete",
         headers: {
           token: localStorage.token 
@@ -289,8 +295,6 @@ function deleteMusic(id) {
   })  
 }
 
-
-
 function getWeather() {
   $.ajax({
     url: `${baseUrl}/weathers/`,
@@ -298,15 +302,65 @@ function getWeather() {
 
   })
   .done(data => {
-    const condition = data.weather[0].main;
-    const temperature = Math.floor((Number(data.main.temp) - 270 )).toString() + 'degree celcius';
-    const wind = (data.wind.speed).toString() + 'm/s';
-    const location = data.name;
+    const condition = data.weatherData.weather[0].main;
+    const temperature = Math.floor((Number(data.weatherData.main.temp) - 270 )).toString() + '°C';
+    const wind = (data.weatherData.wind.speed).toString() + 'm/s';
+    const location = data.weatherData.name;
+    const icon = data.weatherData.weather[0].icon
+    //<img src="https://openweathermap.org/img/wn/03d@2x.png" alt="">
 
-    $("#condition").val(condition)
-    $("#temperature").val(temperature)
-    $("#wind").val(wind)
-    $("#location").val(location)
+    $("#condition").text(condition)
+    $("#temperature").text(temperature)
+    $("#wind").text(`Wind speed:${wind}`)
+    $("#location").text(`Welcome to ${location}`)
+    $("#icon").prepend(`<img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="">`)
+  })
+  .fail(err => {
+    showErrorToastMessage(err.responseJSON.errors.join('\n'))
+  })
+}
+
+let artist = null
+let songname = null
+ 
+function getLyric(){
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:3050/songs/${artist}/${songname}`,
+    headers: {
+      token: localStorage.token
+    }
+  })
+  .done(result => {
+    if(!result.lyrics.lyrics) {
+      $('#add-lyrics').val('lyric is unavailable at this moment')
+    } else {
+      $('#add-lyrics').val(result.lyrics.lyrics);
+    }
+  })
+  .fail(err => {
+    showErrorToastMessage(err.responseJSON.errors.join('\n'))
+  })
+}
+ 
+ 
+function spotify(){
+  const track = $("#search-keyword").val();
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:3050/songs/search/${track}`,
+    headers: {
+      token: localStorage.token
+    }
+  })
+  .done(data => {
+    artist = data.musicData.album.artists[0].name
+    songname = data.musicData.name
+    $('#add-artist').val(data.musicData.album.artists[0].name)
+    $('#add-title').val(data.musicData.name)
+    $('#add-album').val(data.musicData.album.name)
+    $('#add-sound').val(data.musicData.preview_url)
+    getLyric()
   })
   .fail(err => {
     showErrorToastMessage(err.responseJSON.errors.join('\n'))
