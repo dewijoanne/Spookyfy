@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-signin-client_id" content="417449977313-9n8mdnk5h6ht4q0uvvhvlc5nskketgg8.apps.googleusercontent.com">
   <title>Spookyfy</title>
   <link href="https://fonts.googleapis.com/css?family=Alata" rel='stylesheet'>
   <embed src="assets/UK female welcome__preview.mp3" autostart="true" loop="true" width="2" height="0"> </embed>
@@ -107,26 +106,27 @@
     </div>
   </section>
 
-  
+  <!-- home page-->
   <section id="home-page" class="container">
+    <button onclick="logout()" class="btn btn-danger"style="position:absolute; right: 10px; top:10px;">Logout</button>
     <div class="row justify-content-center mt-5">
       <div class="col-4">
-    <button class="btn btn-danger" onclick="signOut()">Sign out</button>
-    <img src="assets/597b4ed0683df1d67c8182776d15a016.gif" style="max-width: 30%" alt="todo" class="img-fluid">
-  </div>
-<div class="col-6">
-  <h1>
-    <b>Your Music</b>
-    <button type="submit" class="btn btn-primary float-right btn-sm"onclick"toAddMusicPage()">Add Music</button>
-  </h1>
-<ul class="list-unstyled" id="container-music">
-</ul>
+        <img src="assets/597b4ed0683df1d67c8182776d15a016.gif" alt="music" class="img-fluid mt-5">
       </div>
-  </div>
-</section>
+      <div class="col-6">
+        <h4>
+          <b>Your Music</b>
+          <button onclick="toAddPage()" type="button" class="btn btn-primary float-right btn-sm">Add Music</button>
+        </h4>
+        <ul id="container-music" class="list-unstyled">
+          
+        </ul>
+      </div>
+    </div>
+  </section>
 
 <!-- add music form-->
-<section class="container" id="addmusic-page">
+<section class="container" id="add-page">
   <div class="row justify-content-center mt-5">
     <div class="col-4">
       <div class="mb-5 mt-5">
@@ -139,9 +139,8 @@
       <div class="shadow-lg p-5 mb-5 bg-white rounded">
         <h5 class="mb-4">
           <b>Add Music</b>
-          <button class="btn btn-sm btn-primary float-right" onclick="toSearchMusicPage()">Search</button>
         </h5>
-        <form onsubmit="addMusic"(event)">
+        <form onsubmit="addMusic(event)">
         <div class="form-group">
           <label for="add-title">Title</label>
           <input type="text" class="form-control" id="add-title">
@@ -152,36 +151,26 @@
         <input type="text" class="form-control" id="add-artist">
       </div>
       <div class="form-group">
-        <label for="add-genre">Genre</label>
-        <select class="form-control" id="add-genre">
-          <option selected disabled>Select Genre</option>
-          <option>Pop</option>
-          <option>Rock</option>
-          <option>Jazz</option>
-          <option>Dubstep</option>
-          <option>Blues</option>
-          <option>Techno</option>
-          <option>Country</option>
-          <option>Indie</option>
-        </select>
+        <label for="add-album">Album</label>
+        <input type="text" class="form-control" id="add-album">
       </div>
       <div class="form-group">
-        <label for="add-preview">Preview Url</label>
+        <label for="add-preview">Preview song sounds url</label>
         <input type="text" class="form-control" id="add-preview">
       </div>
       <div class="form-group">
-        <label for="add-link">Link API</label>
-        <input type="text" class="form-control" id="add-link">
+        <label for="add-lyrics">Add Lyrics</label>
+        <input type="text" class="form-control" id="add-lyrics">
       </div>
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
-      </div></form>"
+    </form>
       </div>
     </div>
   </div>
 </section>
 
 <!-- search music-->
-<section class="container" id="searchmusic-page">
+<section class="container" id="search-page">
   <div class="row justify-content-center mt-5">
     <div class ="col-5">
       <h5>
@@ -194,7 +183,7 @@
     </form>
     <ul class="list-unstyled" id="search-container">
       <li class="media text-center mt-3">
-        <p>Search your song!</p>
+        <button id = "search-song" onclick="spotify()">Search</button>
       </li>
     </ul>
     </div>
