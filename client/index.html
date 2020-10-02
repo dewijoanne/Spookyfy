@@ -40,12 +40,12 @@
         <form id="login-form" onsubmit="login(event)">
         <div class="form-group">
           <label for="login-email">Email Address</label>
-          <input type="email" class="form-control" id="login-email" placeholder="Your email">
+          <input type="email" class="form-control" id="login-email" placeholder="Your email" required>
         </div>
         <div class="form-group">
           <div class="form-group">
             <label for="login-password">Password</label>
-            <input type="password" class="form-control" id="login-password" placeholder="Your password">
+            <input type="password" class="form-control" id="login-password" placeholder="Your password" required>
           </div>
           <button type="submit" class="btn btn-primary btn-block">Log In</button>
         </form>
@@ -115,8 +115,7 @@
         <div class="align-items-center d-flex flex-column text-align-center">
           <h4 id="location" class="text-light"></h4>
         <div id="icon" class="d-flex align-items-center">
-          <h4 id="condition" class="text-light"></h4>          
-        </div>
+        </div>         
         <h4 id="temperature" class="text-light"></h4>
         <h4 id="wind" class="text-light"></h4>
         
@@ -193,6 +192,10 @@
       <div class="form-group">
         <label for="add-sound">Preview song sounds url</label>
         <input type="text" class="form-control" id="add-sound">
+      </div>
+      <div class="form-group">
+        <label for="add-picture">Preview album picture</label>
+        <input type="text" class="form-control" id="add-picture">
       </div>
       <div class="form-group">
         <label for="add-lyrics">Add Lyrics</label>

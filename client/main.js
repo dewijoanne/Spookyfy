@@ -188,28 +188,44 @@ function fetchMusic(){
     getWeather()
     $('#container-music').empty()
     data.songs.forEach(music => {
+      console.log(music.picture)
       $('#container-music').append(`
       <li class="media bg-white rounded p-2 shadow mt-3">
-            <div class="media-body p-1">
-              <button onclick="deleteMusic(${music.id})" type="button" class="close float-right" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-                <h5 class="mt-0 mb-0">${music.title}</h5>
-                <span class="text-muted">${music.artist}</span> 
-                <span class="text-muted">${music.album}</span>
-                 <p>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#lyrics" aria-expanded="false" aria-controls="collapse">Lyrics</button>
-                </p>
-                <div class="collapse" id="collapse">
-                <div class="card card-body">
-                ${music.lyrics}</div>
+        <div class="media-body p-1">
+          <h5 class="mt-0 mb-0">${music.title}</h5>
+          <span class="text-muted">${music.artist}</span> 
+          <span class="text-muted">${music.album}</span>
+          <audio controls>
+          <source src="${music.preview}" type="audio/ogg">
+          </audio>
+          <p>
+            <button class="btn btn-primary mt-2" type="button" data-toggle="modal" data-target="#lyrics_${music.id}">Lyrics</button>
+          </p>
+          <div class="modal fade" id="lyrics_${music.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle_${music.id}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle_${music.id}">Lyrics</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
-              <br>
-              <audio controls>
-              <source src="${music.preview}" type="audio/ogg">
-              </audio>
+                  <div class="modal-body">
+                    ${music.lyrics}
+                  </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
             </div>
-          </li>`)
+          </div>
+        <br>
+        </div>
+      <img src="${music.picture}" class="ml-3 mr-2" style="width:100px">
+      <button onclick="deleteMusic(${music.id})" type="button" class="close float-right" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </li>`)
     })
   })
   .fail(err => {
@@ -237,6 +253,7 @@ function addMusic(event){
   let album = $('#add-album').val()
   let preview = $('#add-sound').val()
   let lyrics = $('#add-lyrics').val()
+  let picture = $('#add-picture').val()
 
   $.ajax({
     url: `${baseUrl}/songs/`,
@@ -244,7 +261,7 @@ function addMusic(event){
     headers: {
       token:localStorage.token
     },
-    data:{title,artist,album,preview,lyrics}
+    data:{title,artist,album,preview,lyrics,picture}
   })
   .done(() => {
     fetchMusic()
@@ -309,18 +326,20 @@ function getWeather() {
 
   })
   .done(data => {
+    $("#icon").empty();
     const condition = data.weatherData.weather[0].main;
     const temperature = Math.floor((Number(data.weatherData.main.temp) - 270 )).toString() + '°C';
     const wind = (data.weatherData.wind.speed).toString() + 'm/s';
     const location = data.weatherData.name;
     const icon = data.weatherData.weather[0].icon
-    //<img src="https://openweathermap.org/img/wn/03d@2x.png" alt="">
 
-    $("#condition").text(condition)
+    //$("#condition").text(condition)
     $("#temperature").text(temperature)
     $("#wind").text(`Wind speed:${wind}`)
     $("#location").text(`Welcome to ${location}`)
-    $("#icon").prepend(`<img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="">`)
+    //
+    $("#icon").prepend(`<img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="">
+    <h4 id="condition" class="text-light"> ${condition}</h4> `)
   })
   .fail(err => {
     showErrorToastMessage(err.responseJSON.errors.join('\n'))
@@ -346,7 +365,7 @@ function getLyric(){
     }
   })
   .fail(err => {
-    showErrorToastMessage(err.responseJSON.errors.join('\n'))
+    showErrorToastMessage('lyrics not found')
   })
 }
  
@@ -367,6 +386,7 @@ function spotify(){
     $('#add-title').val(data.musicData.name)
     $('#add-album').val(data.musicData.album.name)
     $('#add-sound').val(data.musicData.preview_url)
+    $('#add-picture').val(data.musicData.album.images[0].url)
     getLyric()
   })
   .fail(err => {

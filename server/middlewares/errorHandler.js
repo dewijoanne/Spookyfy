@@ -1,7 +1,7 @@
 const errorHandler = (err, req, res, next) => {  
     let errors = []
     let code = 500
-  
+
     switch(err.name) {
       case 'SequelizeValidationError':
         err.errors.forEach(error => errors.push(error.message))
