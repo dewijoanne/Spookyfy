@@ -10,7 +10,6 @@ route.get('/',(req,res,next) => {
       })
     .then(response =>{
         city = response.data.city;
-        console.log(city);
         
         return axios({
             method:'GET',
